@@ -23,6 +23,10 @@ class User extends Model {
 
     return this;
   }
+
+  checkPassword(oldPassword) {
+    return bcryptjs.compare(oldPassword, this.password_hash);
+  }
 }
 
 export default User;
