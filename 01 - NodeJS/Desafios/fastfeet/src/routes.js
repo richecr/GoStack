@@ -13,5 +13,7 @@ routes.use(AuthRecipients);
 
 // Cadastrar um recipient.
 routes.post('/recipients', RecipientsController.store);
+// Atualizar um recipient.
+routes.put('/recipients', RecipientsController.update);
 
 export default routes;
