@@ -7,6 +7,7 @@ import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
 import ProviderController from './app/controllers/ProviderController';
 import AppointmentController from './app/controllers/AppointmentController';
+import ScheduleController from './app/controllers/ScheduleController';
 
 import authMiddlewares from './app/middlewares/auth';
 
@@ -28,6 +29,9 @@ routes.put('/users', UserController.update);
 
 // Providers
 routes.get('/providers', ProviderController.index);
+
+// Appointments do provider logado.
+routes.get('/schedule', ScheduleController.index);
 
 // Appointments
 routes.post('/appointments', AppointmentController.store);
