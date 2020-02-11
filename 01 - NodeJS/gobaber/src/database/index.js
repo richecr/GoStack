@@ -28,7 +28,7 @@ class Database {
       'mongodb://localhost:27017/gobaber',
       {
         useNewUrlParser: true,
-        useFindAndModify: true,
+        useFindAndModify: false,
         useUnifiedTopology: true,
       }
     );
