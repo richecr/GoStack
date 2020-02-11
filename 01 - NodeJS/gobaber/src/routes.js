@@ -17,26 +17,27 @@ const routes = new Router();
 const upload = multer(MulterConfig);
 
 // Rotas sem Middlewares
-// Users
+
+// Users.
 routes.post('/users', UserController.store);
 
-// Sessions
+// Sessions.
 routes.post('/sessions', SessionController.store);
 
-// Rotas com middlewares
+// Rotas com middlewares.
 routes.use(authMiddlewares);
 
-// Users
+// Users.
 routes.put('/users', UserController.update);
 
-// Providers
+// Providers.
 routes.get('/providers', ProviderController.index);
 routes.get('/providers/:providerId/available', AvailableController.index);
 
 // Appointments do provider logado.
 routes.get('/schedule', ScheduleController.index);
 
-// Appointments
+// Appointments.
 routes.post('/appointments', AppointmentController.store);
 routes.get('/appointments', AppointmentController.index);
 routes.delete('/appointments/:id', AppointmentController.delete);
@@ -45,7 +46,7 @@ routes.delete('/appointments/:id', AppointmentController.delete);
 routes.get('/notifications', NotificationController.index);
 routes.put('/notifications/:id', NotificationController.update);
 
-// Uploads
+// Uploads.
 routes.post('/files', upload.single('file'), FileController.store);
 
 export default routes;
