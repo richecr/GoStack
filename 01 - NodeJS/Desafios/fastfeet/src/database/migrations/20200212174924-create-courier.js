@@ -3,9 +3,10 @@ module.exports = {
     return queryInterface.createTable('couriers', {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
         allowNull: false,
-        autoIncremet: true,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
       },
       name: {
         type: Sequelize.STRING,
