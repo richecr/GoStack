@@ -6,6 +6,7 @@ import RecipientController from './app/controllers/RecipientController';
 import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import OrderController from './app/controllers/OrderController';
+import OrderStatusController from './app/controllers/OrderStatusController';
 
 import AuthRecipients from './app/middlewares/Auth';
 
@@ -45,6 +46,9 @@ routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
 routes.put('/orders/:id_order', OrderController.update);
 routes.delete('/orders/:id_order', OrderController.delete);
+
+// Entregas associadas a um entregador.
+routes.get('/deliveryman/:deliveryman_id/orders', OrderStatusController.index);
 
 // Uploads.
 routes.post('/files', upload.single('avatar'), FileController.store);
