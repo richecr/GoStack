@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import Recipients from '../models/Recipients';
+import Recipient from '../models/Recipient';
 
-class RecipientsController {
+class RecipientController {
   async store(req, res) {
     const schema = yup.object().shape({
       name: yup.string().required(),
@@ -18,7 +18,7 @@ class RecipientsController {
     }
 
     const { name, street, number, complement, state, city, cep } = req.body;
-    const recipient = await Recipients.create({
+    const recipient = await Recipient.create({
       name,
       street,
       number,
@@ -62,7 +62,7 @@ class RecipientsController {
       return res.status(400).json({ error: 'Request incorrect' });
     }
 
-    const recipient = await Recipients.findByPk(id_recipient);
+    const recipient = await Recipient.findByPk(id_recipient);
 
     if (!recipient) {
       return res.status(400).json({ error: 'Recipient not found' });
@@ -74,4 +74,4 @@ class RecipientsController {
   }
 }
 
-export default new RecipientsController();
+export default new RecipientController();

@@ -2,9 +2,10 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import SessionController from './app/controllers/SessionController';
-import RecipientsController from './app/controllers/RecipientsController';
+import RecipientController from './app/controllers/RecipientController';
 import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
+import OrderController from './app/controllers/OrderController';
 
 import AuthRecipients from './app/middlewares/Auth';
 
@@ -29,15 +30,21 @@ routes.post('/sessions', SessionController.store);
 routes.use(AuthRecipients);
 
 // Cadastrar um recipient.
-routes.post('/recipients', RecipientsController.store);
+routes.post('/recipients', RecipientController.store);
 // Atualizar um recipient.
-routes.put('/recipients', RecipientsController.update);
+routes.put('/recipients', RecipientController.update);
 
 // Couriers.
 routes.post('/delivermans', DeliverymanController.store);
 routes.get('/delivermans', DeliverymanController.index);
 routes.put('/delivermans/:id', DeliverymanController.update);
 routes.delete('/delivermans/:id', DeliverymanController.delete);
+
+// Orders.
+routes.post('/orders', OrderController.store);
+routes.get('/orders', OrderController.index);
+routes.put('/orders/:id_order', OrderController.update);
+routes.delete('/orders/:id_order', OrderController.delete);
 
 // Uploads.
 routes.post('/files', upload.single('avatar'), FileController.store);
