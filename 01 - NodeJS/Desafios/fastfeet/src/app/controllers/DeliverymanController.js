@@ -1,10 +1,10 @@
-import Courier from '../models/Courier';
+import Deliveryman from '../models/Deliveryman';
 
-class CourierController {
+class DeliverymanController {
   async store(req, res) {
     const { name, email } = req.body;
 
-    const courier = await Courier.create({
+    const courier = await Deliveryman.create({
       name,
       email,
     });
@@ -15,7 +15,7 @@ class CourierController {
   async index(req, res) {
     const { id } = req.params;
 
-    const courier = await Courier.findByPk(id);
+    const courier = await Deliveryman.findByPk(id);
 
     if (!courier) {
       return res
@@ -28,7 +28,7 @@ class CourierController {
 
   async update(req, res) {
     const { id } = req.params;
-    const courier = await Courier.findByPk(id);
+    const courier = await Deliveryman.findByPk(id);
 
     if (!courier) {
       return res
@@ -43,7 +43,7 @@ class CourierController {
 
   async delete(req, res) {
     const { id } = req.params;
-    const courier = await Courier.findByPk(id);
+    const courier = await Deliveryman.findByPk(id);
 
     if (!courier) {
       return res
@@ -51,7 +51,7 @@ class CourierController {
         .json({ error: 'Courier does not exist or deleted' });
     }
 
-    await Courier.destroy({
+    await Deliveryman.destroy({
       where: {
         id,
       },
@@ -61,4 +61,4 @@ class CourierController {
   }
 }
 
-export default new CourierController();
+export default new DeliverymanController();

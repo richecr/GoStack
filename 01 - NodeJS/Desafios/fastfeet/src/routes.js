@@ -4,7 +4,7 @@ import multer from 'multer';
 import SessionController from './app/controllers/SessionController';
 import RecipientsController from './app/controllers/RecipientsController';
 import FileController from './app/controllers/FileController';
-import CourierController from './app/controllers/CourierController';
+import DeliverymanController from './app/controllers/DeliverymanController';
 
 import AuthRecipients from './app/middlewares/Auth';
 
@@ -34,10 +34,10 @@ routes.post('/recipients', RecipientsController.store);
 routes.put('/recipients', RecipientsController.update);
 
 // Couriers.
-routes.post('/couriers', CourierController.store);
-routes.get('/couriers/:id', CourierController.index);
-routes.put('/couriers/:id', CourierController.update);
-routes.delete('/couriers/:id', CourierController.delete);
+routes.post('/couriers', DeliverymanController.store);
+routes.get('/couriers/:id', DeliverymanController.index);
+routes.put('/couriers/:id', DeliverymanController.update);
+routes.delete('/couriers/:id', DeliverymanController.delete);
 
 // Uploads.
 routes.post('/files', upload.single('avatar'), FileController.store);
