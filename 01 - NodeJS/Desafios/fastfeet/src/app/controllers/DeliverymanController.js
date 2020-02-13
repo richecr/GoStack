@@ -1,54 +1,84 @@
+import * as Yup from 'yup';
+
 import Deliveryman from '../models/Deliveryman';
 
 class DeliverymanController {
   async store(req, res) {
-    const { name, email } = req.body;
-
-    const courier = await Deliveryman.create({
-      name,
-      email,
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      avatar_id: Yup.number(),
     });
 
-    return res.json(courier);
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { name, email, avatar_id } = req.body;
+
+    const deliveryman = await Deliveryman.create({
+      name,
+      email,
+      avatar_id,
+    });
+
+    return res.json(deliveryman);
   }
 
   async index(req, res) {
-    const { id } = req.params;
+    const deliverymans = await Deliveryman.findAll();
 
-    const courier = await Deliveryman.findByPk(id);
-
-    if (!courier) {
-      return res
-        .status(400)
-        .json({ error: 'Courier with this ID does not exist' });
-    }
-
-    return res.json(courier);
+    return res.json(deliverymans);
   }
 
   async update(req, res) {
-    const { id } = req.params;
-    const courier = await Deliveryman.findByPk(id);
+    const schema = Yup.object().shape({
+      id: Yup.number().required(),
+      name: Yup.string(),
+      email: Yup.string().email(),
+      avatar_id: Yup.number(),
+    });
 
-    if (!courier) {
-      return res
-        .status(400)
-        .json({ error: 'Courier does not exist or deleted' });
+    if (!(await schema.isValid({ ...req.params, ...req.body }))) {
+      return res.status(400).json({ error: 'Validation fails' });
     }
 
-    await courier.update(req.body);
+    const { id } = req.params;
+    const deliveryman = await Deliveryman.findByPk(id);
 
-    return res.json(courier);
+    if (!deliveryman) {
+      return res
+        .status(400)
+        .json({ error: 'Deliveryman does not exist or deleted' });
+    }
+
+    try {
+      await deliveryman.update(req.body);
+    } catch (SequelizeForeignKeyConstraintError) {
+      return res.status(400).json({ error: 'File with ID not exists' });
+    }
+
+    return res.json(deliveryman);
   }
 
   async delete(req, res) {
-    const { id } = req.params;
-    const courier = await Deliveryman.findByPk(id);
+    const schema = Yup.object().shape({
+      id: Yup.number().required(),
+    });
 
-    if (!courier) {
+    if (!(await schema.isValid(req.params))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { id } = req.params;
+    const deliveryman = await Deliveryman.findByPk(id);
+
+    if (!deliveryman) {
       return res
         .status(400)
-        .json({ error: 'Courier does not exist or deleted' });
+        .json({ error: 'Deliveryman with ID does not exist or deleted' });
     }
 
     await Deliveryman.destroy({
@@ -57,7 +87,7 @@ class DeliverymanController {
       },
     });
 
-    return res.json({ message: 'The courier was deleted' });
+    return res.json({ message: 'The Deliveryman was deleted' });
   }
 }
 

@@ -34,10 +34,10 @@ routes.post('/recipients', RecipientsController.store);
 routes.put('/recipients', RecipientsController.update);
 
 // Couriers.
-routes.post('/couriers', DeliverymanController.store);
-routes.get('/couriers/:id', DeliverymanController.index);
-routes.put('/couriers/:id', DeliverymanController.update);
-routes.delete('/couriers/:id', DeliverymanController.delete);
+routes.post('/delivermans', DeliverymanController.store);
+routes.get('/delivermans', DeliverymanController.index);
+routes.put('/delivermans/:id', DeliverymanController.update);
+routes.delete('/delivermans/:id', DeliverymanController.delete);
 
 // Uploads.
 routes.post('/files', upload.single('avatar'), FileController.store);
