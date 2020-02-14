@@ -15,16 +15,14 @@ import MulterConfig from './config/multer';
 const routes = new Router();
 const upload = multer(MulterConfig);
 
-/**
- * avatar_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'file',
-          key: 'id',
-        },
-      },
- */
+// Entregas associadas a um entregador.
+routes.get('/deliveryman/:deliveryman_id/orders', OrderStatusController.index);
+
+routes.put(
+  '/deliveryman/:deliveryman_id/orders/:id_order',
+  OrderStatusController.update
+);
+
 // Login de um Admin.
 routes.post('/sessions', SessionController.store);
 
@@ -46,9 +44,6 @@ routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
 routes.put('/orders/:id_order', OrderController.update);
 routes.delete('/orders/:id_order', OrderController.delete);
-
-// Entregas associadas a um entregador.
-routes.get('/deliveryman/:deliveryman_id/orders', OrderStatusController.index);
 
 // Uploads.
 routes.post('/files', upload.single('avatar'), FileController.store);
