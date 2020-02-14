@@ -48,10 +48,14 @@ class OrderController {
   }
 
   async index(req, res) {
+    const { page = 1 } = req.query;
+
     const orders = await Order.findAll({
       where: {
         canceled_at: null,
       },
+      limit: 15,
+      offset: (page - 1) * 15,
       attributes: ['id', 'product', 'recipient_id', 'deliveryman_id'],
       include: [
         {
