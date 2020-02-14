@@ -7,10 +7,11 @@ import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import OrderController from './app/controllers/OrderController';
 import OrderStatusController from './app/controllers/OrderStatusController';
-
-import AuthRecipients from './app/middlewares/Auth';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 import MulterConfig from './config/multer';
+
+import AuthRecipients from './app/middlewares/Auth';
 
 const routes = new Router();
 const upload = multer(MulterConfig);
@@ -22,6 +23,14 @@ routes.put(
   '/deliveryman/:deliveryman_id/orders/:id_order',
   upload.single('assinatura'),
   OrderStatusController.update
+);
+
+// Entregas com problemas.
+routes.get('/delivery/problems', DeliveryProblemController.index);
+routes.post('/delivery/:id_order/problems', DeliveryProblemController.store);
+routes.delete(
+  '/problems/:id_problem/cancel-delivery',
+  DeliveryProblemController.delete
 );
 
 // Login de um Admin.

@@ -8,10 +8,6 @@ import Order from '../models/Order';
 import File from '../models/File';
 
 class OrderStatusController {
-  async store(req, res) {
-    return res.json({ ok: true });
-  }
-
   async index(req, res) {
     const schema = Yup.object().shape({
       deliveryman_id: Yup.number().required(),
@@ -155,11 +151,8 @@ class OrderStatusController {
       });
     }
 
+    order.save();
     return res.json(order);
-  }
-
-  async delete(req, res) {
-    return res.json({ ok: true });
   }
 }
 

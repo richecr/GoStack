@@ -59,6 +59,7 @@ class DeliverymanController {
     } catch (SequelizeForeignKeyConstraintError) {
       return res.status(400).json({ error: 'File with ID not exists' });
     }
+    deliveryman.save();
 
     return res.json(deliveryman);
   }

@@ -92,6 +92,7 @@ class OrderController {
     }
 
     await order.update(req.body);
+    order.save();
 
     return res.json(order);
   }
@@ -112,6 +113,7 @@ class OrderController {
     await order.update({
       canceled_at: new Date(),
     });
+    order.save();
 
     return res.json(order);
   }

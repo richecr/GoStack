@@ -69,6 +69,7 @@ class RecipientController {
     }
 
     const recipientResponse = await recipient.update(req.body);
+    recipient.save();
 
     return res.json(recipientResponse);
   }
