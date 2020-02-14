@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
-import Mail from '../libs/Mail';
+import CreateOrderMail from '../jobs/CreateOrderMail';
+import Queue from '../../libs/Queue';
 
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
@@ -37,21 +38,11 @@ class OrderController {
       product,
     });
 
-    const message = {
-      from: 'no-reply@fastfeet.com',
-      to: deliveryman.email,
-      subject: 'nova entrega cadastrada para você',
-      template: 'cancellation',
-      context: {
-        name: recipient.name,
-        city: recipient.city,
-        street: recipient.street,
-        state: recipient.state,
-        product,
-      },
-    };
-
-    await Mail.sendEmail(message);
+    await Queue.add(CreateOrderMail.key, {
+      recipient,
+      deliveryman,
+      product,
+    });
 
     return res.json(order);
   }
