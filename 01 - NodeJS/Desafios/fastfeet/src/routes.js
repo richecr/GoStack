@@ -20,6 +20,7 @@ routes.get('/deliveryman/:deliveryman_id/orders', OrderStatusController.index);
 
 routes.put(
   '/deliveryman/:deliveryman_id/orders/:id_order',
+  upload.single('assinatura'),
   OrderStatusController.update
 );
 

@@ -5,6 +5,7 @@ import { isBefore, startOfDay, endOfDay } from 'date-fns';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 import Order from '../models/Order';
+import File from '../models/File';
 
 class OrderStatusController {
   async store(req, res) {
@@ -138,11 +139,19 @@ class OrderStatusController {
         });
       }
 
+      const { originalname: name, filename: path } = req.file;
+
+      const file = await File.create({
+        name,
+        path,
+      });
+
       const date = new Date();
       date.setTime(end_date);
 
       await order.update({
         end_date: date,
+        signature_id: file.id,
       });
     }
 
