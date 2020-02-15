@@ -1,5 +1,31 @@
 # Fase 02 - Dominando NodeJS
 
+## Tecnologias utilizadas:
+
+- NodeJS
+- Express
+- Nodemon
+- Sucrase
+- Docker
+- Postgres
+- Sequelize
+- MongoDB
+- Mongoose
+- MVC
+- ESLint
+- Prettier
+- Migrations do sequelize
+- Seeders do sequelize
+- Bcryptjs
+- JWT
+- Yup
+- Multer
+- date-fns
+- Nodemailer
+- Express Handlebars
+- Bee-Queue
+- Dotenv
+
 ## Assuntos:
 
 :heavy_check_mark: 2.1 - Ambientes e Conceitos
