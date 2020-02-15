@@ -1,0 +1,21 @@
+.header {
+  background-color: #4A90E2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.header * {
+  margin: 35px;
+}
+
+img {
+  height: 24px;
+}
+
+a {
+  text-decoration: none;
+  color: #FFF;
+}

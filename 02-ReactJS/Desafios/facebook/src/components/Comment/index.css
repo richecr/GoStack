@@ -1,0 +1,38 @@
+.div-comment {
+  padding-top: 10px;
+}
+
+.info-comment {
+  display: flex;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.img-author img {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+#name-author {
+  font-size: 14px;
+  color: #4A4A4A;
+}
+
+.div-content-comment {
+  width: 700px;
+  background: #EEEEEE;
+  border-radius: 20px;
+  margin-left: 10px;
+}
+
+#text {
+  margin-left: 10px;
+}
