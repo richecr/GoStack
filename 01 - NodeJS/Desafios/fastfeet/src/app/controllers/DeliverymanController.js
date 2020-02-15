@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import Deliveryman from '../models/Deliveryman';
+import File from '../models/File';
 
 class DeliverymanController {
   async store(req, res) {
@@ -18,6 +19,18 @@ class DeliverymanController {
 
     const { name, email, avatar_id } = req.body;
 
+    const deliveryman_email = await Deliveryman.findAll({
+      where: {
+        email,
+      },
+    });
+
+    if (deliveryman_email.length) {
+      return res
+        .status(400)
+        .json({ error: 'Deliveryman with Email already exists' });
+    }
+
     const deliveryman = await Deliveryman.create({
       name,
       email,
@@ -28,7 +41,16 @@ class DeliverymanController {
   }
 
   async index(req, res) {
-    const deliverymans = await Deliveryman.findAll();
+    const deliverymans = await Deliveryman.findAll({
+      attributes: ['id', 'name', 'email', 'avatar_id'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['name', 'path'],
+        },
+      ],
+    });
 
     return res.json(deliverymans);
   }

@@ -110,6 +110,10 @@ class OrderController {
 
     const order = await Order.findByPk(id_order);
 
+    if (order.canceled_at) {
+      return res.status(400).json({ error: 'The order already deleted' });
+    }
+
     await order.update({
       canceled_at: new Date(),
     });

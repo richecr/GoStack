@@ -19,14 +19,14 @@ class OrderStatusController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { delivered = false, page = 1 } = req.query;
+    const { delivered = 'false', page = 1 } = req.query;
     const { deliveryman_id } = req.params;
 
     const orders = await Order.findAll({
       where: {
         deliveryman_id,
         canceled_at: null,
-        end_date: delivered ? { [Op.ne]: null } : { [Op.eq]: null },
+        end_date: delivered === 'true' ? { [Op.ne]: null } : { [Op.eq]: null },
       },
       attributes: ['id', 'product', 'recipient_id', 'start_date', 'end_date'],
       include: [
@@ -80,7 +80,7 @@ class OrderStatusController {
      */
     const order = await Order.findByPk(id_order);
     if (!order) {
-      return res.status(400).json({ error: 'O pedido com este ID não existe' });
+      return res.status(400).json({ error: 'The order with ID not exists' });
     }
 
     /**
@@ -89,7 +89,7 @@ class OrderStatusController {
     if (start_date) {
       const searchDate = Number(start_date);
 
-      if (isBefore(searchDate, new Date())) {
+      if (isBefore(startOfDay(searchDate), startOfDay(new Date()))) {
         return res
           .status(400)
           .json({ error: 'start_date must be a date after the current date' });
@@ -132,6 +132,12 @@ class OrderStatusController {
         return res.status(400).json({
           error:
             'The order cannot have a delivery date before the pick-up date',
+        });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({
+          error: "On the delivery date needs the recipient's signature",
         });
       }
 
