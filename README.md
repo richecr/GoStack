@@ -39,3 +39,13 @@ Repositório para os códigos do curso GoStack da Rocketseat
 -------------------
 ### 9 - [Bônus - Cursos]()
 
+
+-------------------
+## Desafio Fastfeet:
+A aplicação que iremos dar início ao desenvolvimento a partir de agora é um app para uma transportadora fictícia, o FastFeet.
+
+- [1 - Backend](https://github.com/Rickecr/GoStack/tree/master/01%20-%20NodeJS/Desafios/fastfeet) :heavy_check_mark:
+
+- [2 - Web]()
+
+- [3 - Mobile]()
