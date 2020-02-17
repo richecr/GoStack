@@ -125,3 +125,24 @@ export const IssueList = styled.ul`
     }
   }
 `;
+
+export const Paginacao = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    background: #7159c1;
+    border: 0;
+    padding: 0 15px;
+    border-radius: 4px;
+    height: 35px;
+    color: #eee;
+    margin-top: 10px;
+
+    &[disabled] {
+      background-color: #000;
+    }
+  }
+`;

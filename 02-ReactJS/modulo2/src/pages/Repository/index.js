@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList, StateFiler } from './styles';
+import { Loading, Owner, IssueList, StateFiler, Paginacao } from './styles';
 
 export default class Repository extends Component {
   constructor() {
@@ -14,6 +14,10 @@ export default class Repository extends Component {
       issues: {},
       loading: true,
       stateFilter: 'open',
+      page: 1,
+      lastPage: undefined,
+      disabledPrevious: true,
+      disabledNext: false,
     };
   }
 
@@ -25,27 +29,35 @@ export default class Repository extends Component {
     } = this.props;
     const repoName = decodeURIComponent(repo);
 
-    const { stateFilter } = this.state;
+    const { stateFilter, page } = this.state;
 
     const [responseRepo, responseIssues] = await Promise.all([
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
         params: {
           state: stateFilter,
-          per_page: 5,
+          page,
+          per_page: 3,
         },
       }),
     ]);
+
+    const lastPage = Number(
+      responseIssues.headers.link
+        .split('; rel="next", ')[1]
+        .split('&page=')[1][0]
+    );
 
     this.setState({
       repository: responseRepo.data,
       issues: responseIssues.data,
       loading: false,
+      lastPage,
     });
   }
 
   async changeStateIssues(state) {
-    const { repository } = this.state;
+    const { repository, page } = this.state;
     this.setState({ stateFilter: state });
 
     const issues = await api.get(
@@ -53,7 +65,8 @@ export default class Repository extends Component {
       {
         params: {
           state,
-          per_page: 5,
+          page,
+          per_page: 3,
         },
       }
     );
@@ -61,8 +74,32 @@ export default class Repository extends Component {
     this.setState({ issues: issues.data });
   }
 
+  async previousPage() {
+    const { page, stateFilter } = this.state;
+
+    if (page === 1) {
+      this.setState({ disabledPrevious: false });
+      // Button previous fica inativo
+    } else {
+      await this.setState({ page: page - 1 });
+      this.changeStateIssues(stateFilter);
+    }
+  }
+
+  async nextPage() {
+    const { page, lastPage, stateFilter } = this.state;
+
+    if (page === lastPage) {
+      this.setState({ disabledNext: true });
+      // Button next fica inativo
+    } else {
+      await this.setState({ page: page + 1 });
+      this.changeStateIssues(stateFilter);
+    }
+  }
+
   render() {
-    const { repository, issues, loading } = this.state;
+    const { repository, issues, loading, page, lastPage } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -111,6 +148,22 @@ export default class Repository extends Component {
               </div>
             </li>
           ))}
+          <Paginacao>
+            <button
+              disabled={page === 1}
+              type="button"
+              onClick={() => this.previousPage()}
+            >
+              Anterior
+            </button>
+            <button
+              disabled={page === lastPage}
+              type="button"
+              onClick={() => this.nextPage()}
+            >
+              Próximo
+            </button>
+          </Paginacao>
         </IssueList>
       </Container>
     );
