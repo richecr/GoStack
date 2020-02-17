@@ -16,8 +16,6 @@ export default class Repository extends Component {
       stateFilter: 'open',
       page: 1,
       lastPage: undefined,
-      disabledPrevious: true,
-      disabledNext: false,
     };
   }
 
@@ -45,7 +43,8 @@ export default class Repository extends Component {
     const lastPage = Number(
       responseIssues.headers.link
         .split('; rel="next", ')[1]
-        .split('&page=')[1][0]
+        .split('&page=')[1]
+        .split('&')[0]
     );
 
     this.setState({
@@ -77,10 +76,7 @@ export default class Repository extends Component {
   async previousPage() {
     const { page, stateFilter } = this.state;
 
-    if (page === 1) {
-      this.setState({ disabledPrevious: false });
-      // Button previous fica inativo
-    } else {
+    if (page !== 1) {
       await this.setState({ page: page - 1 });
       this.changeStateIssues(stateFilter);
     }
@@ -89,10 +85,7 @@ export default class Repository extends Component {
   async nextPage() {
     const { page, lastPage, stateFilter } = this.state;
 
-    if (page === lastPage) {
-      this.setState({ disabledNext: true });
-      // Button next fica inativo
-    } else {
+    if (page !== lastPage) {
       await this.setState({ page: page + 1 });
       this.changeStateIssues(stateFilter);
     }
