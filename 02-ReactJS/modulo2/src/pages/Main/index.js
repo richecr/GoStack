@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Form, SubmitButton, List } from './styles';
+import { Form, Input, SubmitButton, List } from './styles';
 
 export default class Main extends Component {
   constructor() {
@@ -14,6 +14,7 @@ export default class Main extends Component {
       newRepo: '',
       loading: false,
       repos: [],
+      repoNotFound: false,
     };
   }
 
@@ -46,20 +47,26 @@ export default class Main extends Component {
 
     const { newRepo, repos } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
-    const data = {
-      name: response.data.full_name,
-    };
+    try {
+      const response = await api.get(`/repos/${newRepo}`);
+      const data = {
+        name: response.data.full_name,
+      };
 
-    this.setState({
-      repos: [...repos, data],
-      newRepo: '',
-      loading: false,
-    });
+      this.setState({
+        repos: [...repos, data],
+        newRepo: '',
+        loading: false,
+        repoNotFound: false,
+      });
+    } catch (error) {
+      this.setState({ loading: false });
+      this.setState({ repoNotFound: true });
+    }
   };
 
   render() {
-    const { newRepo, repos, loading } = this.state;
+    const { newRepo, repos, loading, repoNotFound } = this.state;
 
     return (
       <Container>
@@ -69,11 +76,12 @@ export default class Main extends Component {
         </h1>
 
         <Form onSubmit={this.handleSubmit}>
-          <input
+          <Input
             type="text"
             placeholder="Adicionar repositório"
             value={newRepo}
             onChange={this.handleInputChange}
+            repoNotFound={repoNotFound}
           />
 
           <SubmitButton loading={loading}>
