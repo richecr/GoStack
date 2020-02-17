@@ -40,6 +40,15 @@ export default class Main extends Component {
     this.setState({ newRepo: e.target.value });
   };
 
+  verifyRepositoryExists = repository => {
+    const { repos } = this.state;
+    const repoExists = repos.filter(repo => repo === repository);
+
+    if (repoExists) {
+      throw new Error('Repositório duplicado');
+    }
+  };
+
   handleSubmit = async e => {
     e.preventDefault();
 
@@ -48,6 +57,7 @@ export default class Main extends Component {
     const { newRepo, repos } = this.state;
 
     try {
+      this.verifyRepositoryExists(newRepo);
       const response = await api.get(`/repos/${newRepo}`);
       const data = {
         name: response.data.full_name,
