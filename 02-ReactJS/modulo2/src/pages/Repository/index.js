@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList } from './styles';
+import { Loading, Owner, IssueList, StateFiler } from './styles';
 
 export default class Repository extends Component {
   constructor() {
@@ -13,6 +13,7 @@ export default class Repository extends Component {
       repository: {},
       issues: {},
       loading: true,
+      stateFilter: 'open',
     };
   }
 
@@ -24,11 +25,13 @@ export default class Repository extends Component {
     } = this.props;
     const repoName = decodeURIComponent(repo);
 
+    const { stateFilter } = this.state;
+
     const [responseRepo, responseIssues] = await Promise.all([
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
         params: {
-          state: 'open',
+          state: stateFilter,
           per_page: 5,
         },
       }),
@@ -39,6 +42,23 @@ export default class Repository extends Component {
       issues: responseIssues.data,
       loading: false,
     });
+  }
+
+  async changeStateIssues(state) {
+    const { repository } = this.state;
+    this.setState({ stateFilter: state });
+
+    const issues = await api.get(
+      `/repos/${repository.owner.login}/${repository.name}/issues`,
+      {
+        params: {
+          state,
+          per_page: 5,
+        },
+      }
+    );
+
+    this.setState({ issues: issues.data });
   }
 
   render() {
@@ -58,6 +78,23 @@ export default class Repository extends Component {
         </Owner>
 
         <IssueList>
+          <StateFiler>
+            <button
+              type="button"
+              onClick={() => this.changeStateIssues('open')}
+            >
+              Open
+            </button>
+            <button
+              type="button"
+              onClick={() => this.changeStateIssues('closed')}
+            >
+              Closed
+            </button>
+            <button type="button" onClick={() => this.changeStateIssues('all')}>
+              All
+            </button>
+          </StateFiler>
           {issues.map(issue => (
             <li key={String(issue.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />
