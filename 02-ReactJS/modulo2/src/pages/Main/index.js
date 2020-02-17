@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { Container, Form, SubmitButton, List } from './styles';
+import Container from '../../components/Container';
+import { Form, SubmitButton, List } from './styles';
 
 export default class Main extends Component {
   constructor() {
@@ -13,6 +15,24 @@ export default class Main extends Component {
       loading: false,
       repos: [],
     };
+  }
+
+  // Carregar dados do localStorage
+  componentDidMount() {
+    const repos = localStorage.getItem('repos');
+
+    if (repos) {
+      this.setState({ repos: JSON.parse(repos) });
+    }
+  }
+
+  // Salvar os dados no localStorage
+  componentDidUpdate(props, prevState) {
+    const { repos } = this.state;
+
+    if (prevState.repos !== repos) {
+      localStorage.setItem('repos', JSON.stringify(repos));
+    }
   }
 
   handleInputChange = e => {
@@ -69,7 +89,9 @@ export default class Main extends Component {
           {repos.map(repo => (
             <li key={repo.name}>
               <span>{repo.name}</span>
-              <a href="#a">Detalhes</a>
+              <Link to={`/repository/${encodeURIComponent(repo.name)}`}>
+                Detalhes
+              </Link>
             </li>
           ))}
         </List>

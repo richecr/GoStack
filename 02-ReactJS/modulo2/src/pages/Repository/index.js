@@ -1,7 +1,70 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-// import { Container } from './styles';
+import api from '../../services/api';
+import Container from '../../components/Container';
+import { Loading, Owner } from './styles';
 
-export default function Repository() {
-  return <h1>Repository</h1>;
+export default class Repository extends Component {
+  constructor() {
+    super();
+    this.state = {
+      repository: {},
+      issues: {},
+      loading: true,
+    };
+  }
+
+  async componentDidMount() {
+    const {
+      match: {
+        params: { repo },
+      },
+    } = this.props;
+    const repoName = decodeURIComponent(repo);
+
+    const [responseRepo, responseIssues] = await Promise.all([
+      api.get(`/repos/${repoName}`),
+      api.get(`/repos/${repoName}/issues`, {
+        params: {
+          state: 'open',
+          per_page: 5,
+        },
+      }),
+    ]);
+
+    this.setState({
+      repository: responseRepo.data,
+      issues: responseIssues.data,
+      loading: false,
+    });
+  }
+
+  render() {
+    const { repository, issues, loading } = this.state;
+
+    if (loading) {
+      return <Loading>Carregando</Loading>;
+    }
+
+    return (
+      <Container>
+        <Owner>
+          <Link to="/">Voltar aos repositórios</Link>
+          <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+          <h1>{repository.name}</h1>
+          <p>{repository.description}</p>
+        </Owner>
+      </Container>
+    );
+  }
 }
+
+Repository.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      repo: PropTypes.string,
+    }),
+  }).isRequired,
+};
