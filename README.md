@@ -15,7 +15,9 @@ Repositório para os códigos do curso GoStack da Rocketseat
 
 -------------------
 [**Fase 03 - Dominando React**]()
-
+  * 3.1 - Introdução ao React :heavy_check_mark:
+  * 3.2 - Primeiro projeto com ReactJS :heavy_check_mark:
+  * 3.3 - Primeiro projeto com React Native(Não estou focando agor ano ReactNative, mas pretento concluir essa parte também)
 
 -------------------
 [**Fase 04 Arquitetura Flux e React Hooks**]()
