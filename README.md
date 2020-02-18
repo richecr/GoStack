@@ -14,7 +14,7 @@ Repositório para os códigos do curso GoStack da Rocketseat
   * 2.4 - Desafio FastFeet - Backend :heavy_check_mark:
 
 -------------------
-[**Fase 03 - Dominando React**]()
+[**Fase 03 - Dominando React**](02%20-%20React/README.md)
   * 3.1 - Introdução ao React :heavy_check_mark:
   * 3.2 - Primeiro projeto com ReactJS :heavy_check_mark:
   * 3.3 - Primeiro projeto com React Native(Não estou focando agor ano ReactNative, mas pretento concluir essa parte também)
