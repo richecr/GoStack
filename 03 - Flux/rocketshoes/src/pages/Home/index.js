@@ -37,6 +37,7 @@ class Home extends React.Component {
 
   render() {
     const { products } = this.state;
+    const { amount } = this.props;
 
     return (
       <ProductList>
@@ -50,7 +51,8 @@ class Home extends React.Component {
               onClick={() => this.handleAddProduct(product)}
             >
               <div>
-                <MdAddShoppingCart size={16} color="#FFF" />
+                <MdAddShoppingCart size={16} color="#FFF" />{' '}
+                {amount[product.id] || 0}
               </div>
               <span>ADICIONAR AO CARRINHO</span>
             </button>
@@ -61,6 +63,14 @@ class Home extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount || 0;
+
+    return amount;
+  }, {}),
+});
+
 /**
  * Faz com que as funções de actions
  * possam ser acessados pelo componente via props
@@ -68,4 +78,4 @@ class Home extends React.Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
