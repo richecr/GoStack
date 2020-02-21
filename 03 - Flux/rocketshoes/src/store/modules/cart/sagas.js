@@ -1,6 +1,6 @@
 import { call, put, select, all, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import api from '../../../services/api';
-
 import { formatPrice } from '../../../util/format';
 import { addToCartSuccess, updateAmount } from './actions';
 
@@ -10,9 +10,17 @@ function* addToCart({ id }) {
     return state.cart.find(p => p.id === id);
   });
 
-  if (productExists) {
-    const amount = productExists.amount + 1;
+  const stock = yield call(api.get, `/stock/${id}`);
+  const currentProduct = productExists ? productExists.amount : 0;
 
+  const amount = currentProduct + 1;
+
+  if (amount > stock.data.amount) {
+    toast.error('Quantidade solicitada desse produto não tem no estoque');
+    return;
+  }
+
+  if (productExists) {
     yield put(updateAmount(id, amount));
   } else {
     const response = yield call(api.get, `/products/${id}`);
