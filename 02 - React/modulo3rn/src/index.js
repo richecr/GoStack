@@ -1,5 +1,7 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+
+// import { Container } from './styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -7,15 +9,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {
-    fontSize: 26,
-  },
 });
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hello World!</Text>
+      <Text>Oi</Text>
     </View>
   );
 }

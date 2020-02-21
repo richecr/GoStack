@@ -20,8 +20,9 @@ Repositório para os códigos do curso GoStack da Rocketseat
   * 3.3 - Primeiro projeto com React Native(Não estou focando agor ano ReactNative, mas pretento concluir essa parte também)
 
 -------------------
-[**Fase 04 Arquitetura Flux e React Hooks**]()
-
+[**Fase 04 Arquitetura Flux e React Hooks**](03%20-%20Flux/README.md)
+  * 4.1 - Arquitetura Flux :heavy_check_mark:
+  * 4.2 - Utilizando React Hooks
 
 -------------------
 [**Fase 05 - À fundo no React e React Native!**]()
