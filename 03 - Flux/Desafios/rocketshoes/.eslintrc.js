@@ -30,6 +30,10 @@ module.exports = {
       'warn',
       { extensions: ['.jsx', '.js'] }
     ],
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'react/prefer-stateless-function': 'off',
+    'no-useless-constructor': 'off',
+    'no-use-before-define': 'off',
+    'class-methods-use-this': 'off'
   },
 };

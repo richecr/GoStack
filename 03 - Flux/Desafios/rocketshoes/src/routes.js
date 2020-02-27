@@ -12,6 +12,10 @@ export default function Routes() {
     <Stack.Navigator
       screenOptions={{
         header: props => <MyHeader {...props} />,
+        headerStyle: {},
+        cardStyle: {
+          backgroundColor: '#191920',
+        },
       }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Cart" component={Cart} />
