@@ -1,7 +1,9 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as CartActions from '../../store/modules/cart/actions';
 import api from '../../services/api';
 
 import {
@@ -16,7 +18,7 @@ import {
   AddButton,
 } from './styles';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -29,13 +31,19 @@ export default class Home extends React.Component {
     this.setState({ products: response.data });
   }
 
+  handleAddProduct(item) {
+    const { addProduct } = this.props;
+
+    addProduct(item);
+  }
+
   renderProduct({ item }) {
     return (
       <Product>
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
         <ProductPrice>R$ {item.price}</ProductPrice>
-        <ButtonAddProduct>
+        <ButtonAddProduct onPress={() => this.handleAddProduct(item)}>
           <ProductAmount>
             <Icon name="shopping-cart" size={16} color="#fff" type="entypo" />
             <TextAmount>1</TextAmount>
@@ -56,9 +64,18 @@ export default class Home extends React.Component {
           data={products}
           extraData={this.props}
           keyExtractor={item => String(item.id)}
-          renderItem={this.renderProduct}
+          renderItem={item => this.renderProduct(item)}
         />
       </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

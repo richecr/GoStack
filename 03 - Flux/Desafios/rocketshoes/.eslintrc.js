@@ -12,6 +12,7 @@ module.exports = {
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
+    __DEV__: 'readonly',
   },
   parserOptions: {
     ecmaFeatures: {
@@ -34,6 +35,7 @@ module.exports = {
     'react/prefer-stateless-function': 'off',
     'no-useless-constructor': 'off',
     'no-use-before-define': 'off',
-    'class-methods-use-this': 'off'
+    'class-methods-use-this': 'off',
+    'no-unused-expressions': 'off'
   },
 };
