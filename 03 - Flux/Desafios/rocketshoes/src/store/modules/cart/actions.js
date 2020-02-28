@@ -1,8 +1,15 @@
-import { ADD_PRODUCT_CART } from './actionTypes';
+import { ADD_PRODUCT_SUCCESS, ADD_PRODUCT_REQUEST } from './actionTypes';
 
-export function addProduct(product) {
+export function addProductRequest(id) {
   return {
-    type: ADD_PRODUCT_CART,
+    type: ADD_PRODUCT_REQUEST,
+    id,
+  };
+}
+
+export function addProductSuccess(product) {
+  return {
+    type: ADD_PRODUCT_SUCCESS,
     product,
   };
 }

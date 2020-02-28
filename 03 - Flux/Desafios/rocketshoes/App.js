@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import './src/config/reactotronConfig';
 
-import { Store } from './src/store/index';
+import Store from './src/store/index';
 import Routes from './src/routes';
 
 export default function App() {

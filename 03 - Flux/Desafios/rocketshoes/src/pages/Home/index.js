@@ -32,9 +32,9 @@ class Home extends React.Component {
   }
 
   handleAddProduct(item) {
-    const { addProduct } = this.props;
+    const { addProductRequest } = this.props;
 
-    addProduct(item);
+    addProductRequest(item.id);
   }
 
   renderProduct({ item }) {
